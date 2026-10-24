@@ -1,0 +1,142 @@
+/* ============================================================
+   DKV Pocket Studio — Minimal stylesheet (only what Tailwind can't do)
+   Everything else lives as Tailwind utility classes in HTML/JS.
+   ============================================================ */
+
+/* ── CSS Custom Theme Variables ─────────────────────────────── */
+:root {
+  --accent:         #6366f1;
+  --accent-hover:   #4f46e5;
+  --accent-light:   rgba(99,102,241,0.1);
+  --accent-dark:    #4338ca;
+  --sidebar-bg:     #ffffff;
+  --sidebar-border: #e5e7eb;
+  --body-bg:        #f9fafb;
+  --card-bg:        #ffffff;
+  --card-border:    #e5e7eb;
+}
+.dark {
+  --accent:         #818cf8;
+  --accent-hover:   #a5b4fc;
+  --accent-light:   rgba(129,140,248,0.15);
+  --accent-dark:    #a5b4fc;
+  --sidebar-bg:     #111827;
+  --sidebar-border: #1f2937;
+  --body-bg:        #030712;
+  --card-bg:        #111827;
+  --card-border:    #1f2937;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar              { width: 5px; height: 5px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: #d1d5db; border-radius: 3px; }
+.dark ::-webkit-scrollbar-thumb  { background: #4b5563; }
+
+/* ── Tab visibility (JS toggles .active) ───────────────────── */
+.tab-content        { display: none; }
+.tab-content.active { display: block; }
+
+/* ── Sidebar accordion (JS toggles .open) ──────────────────── */
+.nav-items                     { overflow: hidden; max-height: 0; transition: max-height .28s ease; }
+.nav-group.open .nav-items     { max-height: 500px; }
+.nav-group.open .nav-group-icon{ transform: rotate(90deg); }
+
+/* ── Sidebar collapse on mobile (JS toggles .collapsed) ────── */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed !important;
+    top: 57px;
+    left: 0;
+    z-index: 40;
+    box-shadow: 4px 0 20px rgba(0,0,0,.12);
+    transform: translateX(0);
+  }
+  .sidebar.collapsed {
+    transform: translateX(-100%);
+  }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    top: 57px;
+    background: rgba(0,0,0,.3);
+    z-index: 39;
+  }
+  .sidebar-overlay.visible { display: block; }
+}
+
+/* ── Sidebar overlay (desktop hidden) ──────────────────────── */
+@media (min-width: 769px) {
+  .sidebar-overlay { display: none !important; }
+}
+
+/* ── Accent-driven active states (format-btn, filter-btn) ─── */
+.format-btn.active,
+.filter-btn.active {
+  border-color: var(--accent) !important;
+  background-color: var(--accent-light) !important;
+  color: var(--accent-dark) !important;
+}
+
+/* ── Range input accent ─────────────────────────────────────── */
+input[type="range"] { accent-color: var(--accent); }
+
+/* ── Ratio box smooth resize ────────────────────────────────── */
+.ratio-box { transition: width .35s cubic-bezier(.4,0,.2,1), height .35s cubic-bezier(.4,0,.2,1); }
+
+/* ── Toast animation ────────────────────────────────────────── */
+@keyframes toastFadeOut {
+  from { opacity:1; transform:translateX(-50%) translateY(0); }
+  to   { opacity:0; transform:translateX(-50%) translateY(8px); }
+}
+.toast-anim { animation: toastFadeOut 1.4s ease .8s forwards; }
+
+/* ── Mockup stage checkerboard background ───────────────────── */
+.mockup-stage {
+  background: repeating-conic-gradient(#f0f0f0 0% 25%, #fafafa 0% 50%) 0 0 / 20px 20px;
+}
+.dark .mockup-stage {
+  background: repeating-conic-gradient(#1f2937 0% 25%, #111827 0% 50%) 0 0 / 20px 20px;
+}
+
+/* ── Asisten panel open/close (JS toggles .hidden-panel) ────── */
+.asisten-panel.hidden-panel {
+  opacity: 0;
+  transform: scale(.9) translateY(8px);
+  pointer-events: none;
+}
+
+/* ── Asisten typing animation ───────────────────────────────── */
+.msg-typing span {
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: #9ca3af;
+  border-radius: 50%;
+  animation: typingDot .9s infinite both;
+  margin: 0 1px;
+}
+.msg-typing span:nth-child(2) { animation-delay: .15s; }
+.msg-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes typingDot {
+  0%,100% { opacity:.3; transform:translateY(0);   }
+  50%     { opacity:1;  transform:translateY(-3px); }
+}
+
+/* ── Theme swatch selected ring ─────────────────────────────── */
+.theme-swatch.selected {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* ── Checklist strikethrough ────────────────────────────────── */
+.check-item.checked .check-label { text-decoration: line-through; opacity: .5; }
+
+/* ── Type scale row hover ───────────────────────────────────── */
+.type-scale-row:hover { background: rgba(99,102,241,.04); border-radius: 6px; }
+
+/* ── Mobile asisten position ────────────────────────────────── */
+@media (max-width: 480px) {
+  .asisten-panel { width: calc(100vw - 32px) !important; right: 16px !important; }
+  .asisten-btn   { bottom: 16px !important; right: 16px !important; }
+}

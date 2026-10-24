@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DKV Pocket Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'], display: ['Space Grotesk','ui-sans-serif'] } } }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 min-h-screen transition-colors duration-300">
+
+<!-- ── HEADER ─────────────────────────────────────────────── -->
+<header class="sticky top-0 z-30 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800 h-[57px]">
+  <div class="max-w-full px-4 h-full flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <!-- Mobile sidebar toggle -->
+      <button id="sidebarToggle" aria-label="Menu"
+        class="md:hidden w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center flex-shrink-0">
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+      </div>
+      <span class="font-display font-bold text-base tracking-tight">DKV Pocket Studio</span>
+    </div>
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <!-- Language Toggle -->
+      <button id="langToggleBtn" title="Switch language"
+        class="h-9 px-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex items-center gap-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm font-medium">
+        <span id="langFlag" class="text-base leading-none">🇮🇩</span>
+        <span id="langLabel" class="text-xs font-semibold text-gray-600 dark:text-gray-300 hidden sm:inline">ID</span>
+      </button>
+      <!-- Theme Customize -->
+      <button id="themeCustomizeBtn" aria-label="Kustomisasi tema"
+        class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+        title="Kustomisasi Warna">
+        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+        </svg>
+      </button>
+      <!-- Dark/Light Toggle -->
+      <button id="themeToggle" aria-label="Toggle theme"
+        class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <svg id="sunIcon" class="w-4 h-4 hidden text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2zM10 15a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15zM18 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0118 10zM4.25 10a.75.75 0 01-.75.75H2a.75.75 0 010-1.5h1.5a.75.75 0 01.75.75zM15.303 5.758a.75.75 0 010 1.06l-1.06 1.06a.75.75 0 01-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zM6.818 13.243a.75.75 0 010 1.06l-1.06 1.06a.75.75 0 11-1.061-1.06l1.06-1.06a.75.75 0 011.061 0zM15.303 14.303a.75.75 0 01-1.06 0l-1.06-1.06a.75.75 0 011.06-1.06l1.06 1.06a.75.75 0 010 1.06zM6.818 6.818a.75.75 0 01-1.06 0L4.697 5.757a.75.75 0 111.06-1.06l1.06 1.06a.75.75 0 010 1.06zM10 6a4 4 0 100 8 4 4 0 000-8z"/>
+        </svg>
+        <svg id="moonIcon" class="w-4 h-4 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── APP SHELL ──────────────────────────────────────────── -->
+<div class="flex min-h-[calc(100vh-57px)]">
+
+<!-- ── SIDEBAR ────────────────────────────────────────────── -->
+<aside id="sidebar"
+  class="sidebar w-[260px] flex-shrink-0 sticky top-[57px] h-[calc(100vh-57px)] overflow-y-auto
+         border-r border-gray-200 dark:border-gray-800 py-4
+         bg-white dark:bg-gray-900
+         flex flex-col transition-transform duration-200 ease-in-out">
+
+  <!-- GROUP 1: Toolkit Harian -->
+  <div class="nav-group open mb-1">
+    <div class="nav-group-header flex items-center justify-between px-4 py-2.5 cursor-pointer select-none hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-indigo-500 inline-block flex-shrink-0"></span>
+        <span class="nav-group-label text-[11px] font-bold tracking-wider uppercase text-gray-400 dark:text-gray-500" data-i18n="nav.toolkit">Toolkit Harian</span>
+      </div>
+      <svg class="nav-group-icon w-3.5 h-3.5 text-gray-300 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </div>
+    <div class="nav-items">
+      <button class="nav-item active flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="font"><span class="text-[15px] flex-shrink-0">🔤</span> <span data-i18n="nav.font">Font Pairing</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="contrast"><span class="text-[15px] flex-shrink-0">🎨</span> <span data-i18n="nav.contrast">WCAG Contrast</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="canvas"><span class="text-[15px] flex-shrink-0">📐</span> <span data-i18n="nav.canvas">Canvas &amp; Ratio</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="movements"><span class="text-[15px] flex-shrink-0">🖼️</span> <span data-i18n="nav.movements">Design Movements</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="checklist"><span class="text-[15px] flex-shrink-0">✅</span> <span data-i18n="nav.checklist">Pre-flight</span></button>
+    </div>
+  </div>
+
+  <!-- GROUP 2: Pra-Cetak -->
+  <div class="nav-group mb-1">
+    <div class="nav-group-header flex items-center justify-between px-4 py-2.5 cursor-pointer select-none hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-amber-500 inline-block flex-shrink-0"></span>
+        <span class="nav-group-label text-[11px] font-bold tracking-wider uppercase text-gray-400 dark:text-gray-500" data-i18n="nav.print">Pra-Cetak &amp; Produksi</span>
+      </div>
+      <svg class="nav-group-icon w-3.5 h-3.5 text-gray-300 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </div>
+    <div class="nav-items">
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="bleed"><span class="text-[15px] flex-shrink-0">📏</span> <span data-i18n="nav.bleed">Bleed &amp; Spine</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="colorspace"><span class="text-[15px] flex-shrink-0">🔬</span> <span data-i18n="nav.colorspace">RGB→CMYK Sim</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="dpi"><span class="text-[15px] flex-shrink-0">🖨️</span> <span data-i18n="nav.dpi">DPI Checker</span></button>
+    </div>
+  </div>
+
+  <!-- GROUP 3: Asistensi -->
+  <div class="nav-group mb-1">
+    <div class="nav-group-header flex items-center justify-between px-4 py-2.5 cursor-pointer select-none hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block flex-shrink-0"></span>
+        <span class="nav-group-label text-[11px] font-bold tracking-wider uppercase text-gray-400 dark:text-gray-500" data-i18n="nav.assist">Asistensi &amp; Review</span>
+      </div>
+      <svg class="nav-group-icon w-3.5 h-3.5 text-gray-300 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </div>
+    <div class="nav-items">
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="brief"><span class="text-[15px] flex-shrink-0">📝</span> <span data-i18n="nav.brief">Brief Generator</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="rubrik"><span class="text-[15px] flex-shrink-0">📋</span> <span data-i18n="nav.rubrik">Rubrik Dosen</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="squint"><span class="text-[15px] flex-shrink-0">👁</span> <span data-i18n="nav.squint">Squint Test</span></button>
+    </div>
+  </div>
+
+  <!-- GROUP 4: Tipografi & Aset -->
+  <div class="nav-group mb-1">
+    <div class="nav-group-header flex items-center justify-between px-4 py-2.5 cursor-pointer select-none hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-blue-500 inline-block flex-shrink-0"></span>
+        <span class="nav-group-label text-[11px] font-bold tracking-wider uppercase text-gray-400 dark:text-gray-500" data-i18n="nav.asset">Tipografi &amp; Aset</span>
+      </div>
+      <svg class="nav-group-icon w-3.5 h-3.5 text-gray-300 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </div>
+    <div class="nav-items">
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="typescale"><span class="text-[15px] flex-shrink-0">📊</span> <span data-i18n="nav.typescale">Type Scale</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="fontdir"><span class="text-[15px] flex-shrink-0">🗂️</span> <span data-i18n="nav.fontdir">Font Directory</span></button>
+    </div>
+  </div>
+
+  <!-- GROUP 5: Portofolio -->
+  <div class="nav-group mb-1">
+    <div class="nav-group-header flex items-center justify-between px-4 py-2.5 cursor-pointer select-none hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-violet-500 inline-block flex-shrink-0"></span>
+        <span class="nav-group-label text-[11px] font-bold tracking-wider uppercase text-gray-400 dark:text-gray-500" data-i18n="nav.portfolio">Portofolio</span>
+      </div>
+      <svg class="nav-group-icon w-3.5 h-3.5 text-gray-300 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </div>
+    <div class="nav-items">
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="casestudy"><span class="text-[15px] flex-shrink-0">📖</span> <span data-i18n="nav.casestudy">Case Study</span></button>
+      <button class="nav-item flex items-center gap-2.5 w-[calc(100%-16px)] mx-2 my-0.5 px-6 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="mockup"><span class="text-[15px] flex-shrink-0">🎭</span> <span data-i18n="nav.mockup">Mockup</span></button>
+    </div>
+  </div>
+
+  <!-- SIDEBAR BOTTOM: Referensi & Kustomisasi -->
+  <div class="mt-auto px-2.5 pt-3 pb-2 border-t border-gray-100 dark:border-gray-800 flex-shrink-0">
+    <button class="nav-item flex items-center gap-2.5 w-full px-3.5 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors" data-tab="references">
+      <span class="text-[15px] flex-shrink-0">🔗</span> <span data-i18n="nav.references">Referensi Desain</span>
+    </button>
+    <button id="themeCustomizeSideBtn"
+      class="nav-item mt-1 flex items-center gap-2.5 w-full px-3.5 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg border-0 bg-transparent text-left cursor-pointer whitespace-nowrap transition-colors"
+      onclick="document.getElementById('themeCustomizeBtn').click()">
+      <span class="text-[15px] flex-shrink-0">🎨</span> <span data-i18n="nav.customtheme">Kustomisasi Tema</span>
+    </button>
+  </div>
+
+</aside>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ── CONTENT ─────────────────────────────────────────────── -->
+<main class="flex-1 min-w-0 p-7 md:p-8">
+
+<!-- ═══════════════════════════════════════════════════════
+     TOOLKIT HARIAN
+═══════════════════════════════════════════════════════ -->
+
+<!-- TAB: FONT PAIRING -->
+<section id="tab-font" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.font">Font Pairing Playground</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.font.sub">Pilih kombinasi font heading &amp; body, lihat preview langsung.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.settings">Pengaturan</p>
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium mb-1 text-gray-500" data-i18n="label.headingFont">Heading Font</label>
+            <select id="headingFont" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="Playfair Display">Playfair Display (Serif)</option>
+              <option value="Merriweather">Merriweather (Serif)</option>
+              <option value="Space Grotesk" selected>Space Grotesk (Sans)</option>
+              <option value="DM Sans">DM Sans (Sans)</option>
+              <option value="Poppins">Poppins (Sans)</option>
+              <option value="Raleway">Raleway (Sans)</option>
+              <option value="Bebas Neue">Bebas Neue (Display)</option>
+              <option value="Oswald">Oswald (Display)</option>
+              <option value="Fira Code">Fira Code (Mono)</option>
+              <option value="JetBrains Mono">JetBrains Mono (Mono)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1 text-gray-500" data-i18n="label.bodyFont">Body Font</label>
+            <select id="bodyFont" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="Inter" selected>Inter (Sans)</option>
+              <option value="Lato">Lato (Sans)</option>
+              <option value="Source Serif 4">Source Serif 4</option>
+              <option value="Georgia">Georgia (Serif)</option>
+              <option value="DM Mono">DM Mono</option>
+              <option value="Nunito">Nunito (Sans)</option>
+              <option value="Libre Baskerville">Libre Baskerville</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="block text-xs font-medium mb-1 text-gray-500"><span data-i18n="label.headingSize">Heading Size</span>: <span id="hSizeVal">40</span>px</label><input type="range" id="headingSize" min="24" max="80" value="40" class="w-full"/></div>
+        <div><label class="block text-xs font-medium mb-1 text-gray-500"><span data-i18n="label.bodySize">Body Size</span>: <span id="bSizeVal">16</span>px</label><input type="range" id="bodySize" min="12" max="28" value="16" class="w-full"/></div>
+        <div><label class="block text-xs font-medium mb-1 text-gray-500"><span data-i18n="label.lineHeight">Line Height</span>: <span id="lhVal">1.60</span></label><input type="range" id="lineHeight" min="1" max="2.5" step="0.05" value="1.6" class="w-full"/></div>
+        <div><label class="block text-xs font-medium mb-1 text-gray-500"><span data-i18n="label.letterSpacing">Letter Spacing</span>: <span id="lsVal">0</span>px</label><input type="range" id="letterSpacing" min="-2" max="10" step="0.5" value="0" class="w-full"/></div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3" data-i18n="label.preview">Live Preview</p>
+      <div class="flex-1 bg-gray-50 dark:bg-gray-800 rounded-xl p-5 overflow-hidden">
+        <p id="previewHeading" class="font-bold mb-3 leading-tight" style="font-size:40px;">Desain yang Baik Berbicara Sendiri</p>
+        <p id="previewBody" class="text-gray-600 dark:text-gray-300">Tipografi bukan sekadar memilih huruf yang indah — ini tentang menciptakan hierarki visual yang memandu mata pembaca. Setiap pilihan font mencerminkan kepribadian dan nada pesan yang ingin disampaikan.</p>
+        <p id="previewBody2" class="text-gray-600 dark:text-gray-300 mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB: WCAG CONTRAST -->
+<section id="tab-contrast" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.contrast">Palette &amp; WCAG Contrast Checker</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.contrast.sub">Uji kombinasi warna teks dan latar terhadap standar aksesibilitas WCAG 2.1.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.pickColor">Pilih Warna</p>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium mb-1.5 text-gray-500" data-i18n="label.fgColor">Foreground (Teks)</label>
+          <div class="flex items-center gap-2"><input type="color" id="fgColor" value="#1f2328" class="w-11 h-10 rounded cursor-pointer border border-gray-200 dark:border-gray-700 bg-transparent flex-shrink-0"/><input type="text" id="fgHex" value="#1f2328" maxlength="7" class="flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"/><button onclick="copyHex('fgHex')" class="px-3 py-2 text-xs bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-medium flex-shrink-0" data-i18n="label.copyBtn">Copy</button></div>
+        </div>
+        <div>
+          <label class="block text-xs font-medium mb-1.5 text-gray-500" data-i18n="label.bgColor">Background (Latar)</label>
+          <div class="flex items-center gap-2"><input type="color" id="bgColor" value="#ffffff" class="w-11 h-10 rounded cursor-pointer border border-gray-200 dark:border-gray-700 bg-transparent flex-shrink-0"/><input type="text" id="bgHex" value="#ffffff" maxlength="7" class="flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"/><button onclick="copyHex('bgHex')" class="px-3 py-2 text-xs bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-medium flex-shrink-0" data-i18n="label.copyBtn">Copy</button></div>
+        </div>
+        <div>
+          <p class="text-xs text-gray-400 mb-2" data-i18n="label.quickPairs">Quick Pairs</p>
+          <div class="flex flex-wrap gap-2">
+            <button class="quick-pair text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-400 transition-colors" data-fg="#1a1a2e" data-bg="#eaeaea">Navy / Light</button>
+            <button class="quick-pair text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-400 transition-colors" data-fg="#ffffff" data-bg="#1a1a2e">White / Navy</button>
+            <button class="quick-pair text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-400 transition-colors" data-fg="#2d2d2d" data-bg="#f9f5ef">Dark / Cream</button>
+            <button class="quick-pair text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-400 transition-colors" data-fg="#ffffff" data-bg="#e53e3e">White / Red</button>
+            <button class="quick-pair text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-400 transition-colors" data-fg="#1a1a1a" data-bg="#ffd700">Black / Gold</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col gap-4">
+      <div id="contrastPreviewBox" class="rounded-xl p-5 border border-gray-200 dark:border-gray-700">
+        <p id="previewTextLarge" class="text-2xl font-bold mb-2">Teks Besar (Bold 18px+)</p>
+        <p id="previewTextNormal" class="text-sm">Teks normal paragraf desain grafis. Pastikan rasio kontras memenuhi WCAG.</p>
+      </div>
+      <div class="text-center py-2">
+        <span class="text-5xl font-display font-bold" id="contrastRatio">12.63</span><span class="text-lg text-gray-400 ml-1">:1</span>
+        <p class="text-xs text-gray-400 mt-1" data-i18n="label.ratio">Rasio Kontras</p>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div class="rounded-lg p-3 bg-gray-50 dark:bg-gray-800"><p class="text-xs text-gray-400 mb-1">Normal — AA (4.5:1)</p><span id="normalAA" class="text-sm font-semibold text-green-600">✓ PASS</span></div>
+        <div class="rounded-lg p-3 bg-gray-50 dark:bg-gray-800"><p class="text-xs text-gray-400 mb-1">Normal — AAA (7:1)</p><span id="normalAAA" class="text-sm font-semibold text-green-600">✓ PASS</span></div>
+        <div class="rounded-lg p-3 bg-gray-50 dark:bg-gray-800"><p class="text-xs text-gray-400 mb-1">Large — AA (3:1)</p><span id="largeAA" class="text-sm font-semibold text-green-600">✓ PASS</span></div>
+        <div class="rounded-lg p-3 bg-gray-50 dark:bg-gray-800"><p class="text-xs text-gray-400 mb-1">Large — AAA (4.5:1)</p><span id="largeAAA" class="text-sm font-semibold text-green-600">✓ PASS</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB: CANVAS RATIO -->
+<section id="tab-canvas" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.canvas">Canvas Aspect Ratio &amp; Grid Guide</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.canvas.sub">Referensi ukuran kanvas standar DKV dengan kalkulator rasio visual dinamis.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold text-gray-400 uppercase mb-2" data-i18n="label.printStd">Standar Cetak (300 DPI)</p>
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <button class="format-btn active text-left rounded-lg px-3 py-2 text-sm border" data-w="2480" data-h="3508" data-label="A4 Portrait" data-unit="px @300dpi">A4 Portrait<span class="block text-xs opacity-60">210×297 mm</span></button>
+        <button class="format-btn text-left rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" data-w="3508" data-h="2480" data-label="A4 Landscape" data-unit="px @300dpi">A4 Landscape<span class="block text-xs opacity-60">297×210 mm</span></button>
+        <button class="format-btn text-left rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" data-w="3508" data-h="4961" data-label="A3 Portrait" data-unit="px @300dpi">A3 Portrait<span class="block text-xs opacity-60">297×420 mm</span></button>
+        <button class="format-btn text-left rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" data-w="4134" data-h="5906" data-label="Poster B2" data-unit="px @300dpi">Poster B2<span class="block text-xs opacity-60">500×707 mm</span></button>
+      </div>
+      <p class="text-xs font-semibold text-gray-400 uppercase mb-2" data-i18n="label.digital">Digital Media</p>
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <button class="format-btn text-left rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" data-w="1080" data-h="1080" data-label="Square 1:1" data-unit="px">Square 1:1<span class="block text-xs opacity-60">1080×1080 px</span></button>
+        <button class="format-btn text-left rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" data-w="1080" data-h="1350" data-label="Portrait Feed 4:5" data-unit="px">Feed 4:5<span class="block text-xs opacity-60">1080×1350 px</span></button>
+        <button class="format-btn text-left rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" data-w="1080" data-h="1920" data-label="Story 9:16" data-unit="px">Story 9:16<span class="block text-xs opacity-60">1080×1920 px</span></button>
+        <button class="format-btn text-left rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" data-w="1920" data-h="1080" data-label="Landscape 16:9" data-unit="px">Landscape 16:9<span class="block text-xs opacity-60">1920×1080 px</span></button>
+        <button class="format-btn text-left rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" data-w="851" data-h="315" data-label="FB Cover" data-unit="px">FB Cover<span class="block text-xs opacity-60">851×315 px</span></button>
+        <button class="format-btn text-left rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" data-w="1500" data-h="500" data-label="Twitter Header" data-unit="px">Twitter Header<span class="block text-xs opacity-60">1500×500 px</span></button>
+      </div>
+      <div class="border-t border-gray-100 dark:border-gray-800 pt-3">
+        <p class="text-xs font-semibold text-gray-400 uppercase mb-2" data-i18n="label.custom">Custom</p>
+        <div class="flex items-center gap-2">
+          <input type="number" id="customW" placeholder="Lebar" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+          <span class="text-gray-400 text-sm">×</span>
+          <input type="number" id="customH" placeholder="Tinggi" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+          <button onclick="applyCustomRatio()" class="px-3 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors whitespace-nowrap" data-i18n="label.applyBtn">Oke</button>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.ratioPreview">Preview Rasio</p>
+      <div class="flex-1 flex flex-col items-center justify-center gap-5">
+        <div class="w-full flex items-center justify-center min-h-[180px]">
+          <div id="ratioBox" class="ratio-box bg-indigo-100 dark:bg-indigo-900/40 border-2 border-indigo-400 dark:border-indigo-500 rounded-lg flex items-center justify-center relative" style="width:140px;height:198px;">
+            <span id="ratioLabel" class="text-indigo-600 dark:text-indigo-300 font-display font-bold text-sm text-center px-2">A4 Portrait</span>
+            <div class="absolute inset-0 m-2 border border-dashed border-indigo-300 dark:border-indigo-700 rounded opacity-60 pointer-events-none"></div>
+          </div>
+        </div>
+        <div id="ratioDimInfo" class="text-center">
+          <p class="text-xl font-display font-bold text-indigo-600 dark:text-indigo-400">2480 × 3508</p>
+          <p class="text-sm text-gray-400">px @300dpi</p>
+          <p class="text-xs text-gray-400 mt-1">Rasio: 0.71 : 1</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB: DESIGN MOVEMENTS -->
+<section id="tab-movements" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.movements">Design Movements Cheat Sheet</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.movements.sub">Referensi cepat karakteristik gaya visual untuk presentasi konsep tugas.</p>
+  </div>
+  <div class="flex flex-col sm:flex-row gap-3 mb-5">
+    <input type="text" id="movementSearch" data-i18n="label.search" placeholder="Cari nama gaya desain..." class="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+    <div class="flex gap-2">
+      <button class="filter-btn active text-xs px-3 py-2 rounded-lg border font-medium" data-filter="all" data-i18n="filter.all">Semua</button>
+      <button class="filter-btn text-xs px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 font-medium" data-filter="modern" data-i18n="filter.modern">Modern</button>
+      <button class="filter-btn text-xs px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 font-medium" data-filter="retro" data-i18n="filter.retro">Retro</button>
+      <button class="filter-btn text-xs px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 font-medium" data-filter="contemporary" data-i18n="filter.contemporary">Kontemporer</button>
+    </div>
+  </div>
+  <div id="movementsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+</section>
+
+<!-- TAB: PRE-FLIGHT CHECKLIST -->
+<section id="tab-checklist" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.checklist">Project Pre-flight Checklist</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.checklist.sub">Pastikan semua poin ini terpenuhi sebelum export, cetak, atau submit.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <div class="mb-5">
+        <div class="flex justify-between items-center mb-2"><span class="text-sm font-semibold" data-i18n="label.projectReady">Kesiapan Proyek</span><span id="checkPercent" class="text-sm font-bold text-indigo-600 dark:text-indigo-400">0%</span></div>
+        <div class="h-2 rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden"><div id="checkProgress" class="h-full rounded-full bg-indigo-600 transition-all duration-500" style="width:0%"></div></div>
+        <p id="checkStatus" class="text-xs text-gray-400 mt-2">Mulai centang item di bawah.</p>
+      </div>
+      <div class="space-y-1" id="checklistItems"></div>
+      <div class="mt-4 flex gap-2">
+        <button onclick="checkAll()" class="flex-1 text-sm py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors font-medium" data-i18n="label.checkAll">✓ Semua</button>
+        <button onclick="resetChecklist()" class="flex-1 text-sm py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium" data-i18n="label.reset">↺ Reset</button>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3" data-i18n="label.quickNotes">Catatan Cepat</p>
+      <div class="space-y-3">
+        <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
+          <p class="font-semibold text-amber-700 dark:text-amber-400 text-sm mb-1" data-i18n="note.print.title">🖨️ Cetak</p>
+          <ul class="text-amber-700 dark:text-amber-300 text-xs space-y-0.5 list-disc list-inside">
+            <li data-i18n="note.print.1">300 DPI minimal</li>
+            <li data-i18n="note.print.2">Mode CMYK</li>
+            <li data-i18n="note.print.3">Bleed 3mm</li>
+            <li data-i18n="note.print.4">Font di-outline</li>
+            <li data-i18n="note.print.5">Safety margin 5mm</li>
+          </ul>
+        </div>
+        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+          <p class="font-semibold text-blue-700 dark:text-blue-400 text-sm mb-1" data-i18n="note.digital.title">🖥️ Digital</p>
+          <ul class="text-blue-700 dark:text-blue-300 text-xs space-y-0.5 list-disc list-inside">
+            <li data-i18n="note.digital.1">Mode RGB (sRGB)</li>
+            <li data-i18n="note.digital.2">72–150 PPI untuk layar</li>
+            <li data-i18n="note.digital.3">PNG/JPG sesuai kebutuhan</li>
+            <li data-i18n="note.digital.4">File &lt;1MB untuk web</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PRA-CETAK & PRODUKSI
+═══════════════════════════════════════════════════════ -->
+
+<!-- TAB: BLEED & SPINE -->
+<section id="tab-bleed" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.bleed">Kalkulator Bleed, Margin &amp; Spine</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.bleed.sub">Hitung otomatis bleed, safety area, dan ketebalan punggung buku/katalog.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.input">Input Dokumen</p>
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="label.trimW">Lebar Trim (mm)</label><input type="number" id="bleedW" value="210" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/></div>
+          <div><label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="label.trimH">Tinggi Trim (mm)</label><input type="number" id="bleedH" value="297" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/></div>
+          <div><label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="label.bleedAmt">Bleed (mm)</label><input type="number" id="bleedAmt" value="3" min="1" max="10" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/></div>
+          <div><label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="label.safetyMargin">Safety Margin (mm)</label><input type="number" id="marginAmt" value="5" min="1" max="20" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/></div>
+        </div>
+        <div class="border-t border-gray-100 dark:border-gray-800 pt-4">
+          <p class="text-xs font-semibold text-gray-400 uppercase mb-3" data-i18n="label.spineBook">Spine Buku</p>
+          <div class="grid grid-cols-2 gap-3">
+            <div><label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="label.pages">Jumlah Halaman</label><input type="number" id="pagesInput" value="32" min="4" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/></div>
+            <div><label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="label.gsm">Gramatur (GSM)</label>
+              <select id="gsmInput" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="70">70 GSM (Koran)</option><option value="80" selected>80 GSM (HVS)</option><option value="100">100 GSM (HVS Tebal)</option><option value="130">130 GSM (Art Paper)</option><option value="150">150 GSM (Art Tebal)</option><option value="200">200 GSM (Card)</option><option value="260">260 GSM (Cover)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.results2">Hasil</p>
+      <div class="space-y-3 mb-4">
+        <div class="flex justify-between items-start p-3 bg-red-50 dark:bg-red-900/20 rounded-lg"><div><p class="text-xs font-semibold text-red-600 dark:text-red-400" data-i18n="label.bleedBox">Bleed Box</p><p class="text-xs text-red-400 mt-0.5" id="outBleedNote"></p></div><p class="text-sm font-bold font-mono text-red-700 dark:text-red-300 ml-3" id="outBleedBox">—</p></div>
+        <div class="flex justify-between items-start p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg"><div><p class="text-xs font-semibold text-blue-600 dark:text-blue-400" data-i18n="label.trimBox">Trim Box (potong final)</p></div><p class="text-sm font-bold font-mono text-blue-700 dark:text-blue-300 ml-3" id="outTrimBox">—</p></div>
+        <div class="flex justify-between items-start p-3 bg-green-50 dark:bg-green-900/20 rounded-lg"><div><p class="text-xs font-semibold text-green-600 dark:text-green-400" data-i18n="label.safeArea">Safe Area</p><p class="text-xs text-green-400 mt-0.5" id="outMarginNote"></p></div><p class="text-sm font-bold font-mono text-green-700 dark:text-green-300 ml-3" id="outSafeBox">—</p></div>
+        <div class="flex justify-between items-start p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg"><div><p class="text-xs font-semibold text-purple-600 dark:text-purple-400" data-i18n="label.spine">Spine / Punggung</p><p class="text-xs text-purple-400 mt-0.5" id="outSpineNote"></p></div><p class="text-sm font-bold font-mono text-purple-700 dark:text-purple-300 ml-3" id="outSpine">—</p></div>
+      </div>
+      <div id="bleedDiagram" class="flex justify-center"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB: COLOR SPACE -->
+<section id="tab-colorspace" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.colorspace">RGB → CMYK Color Space Simulator</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.colorspace.sub">Estimasi pergeseran warna dari layar RGB ke simulasi CMYK sebelum diekspor.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.pickColor">Pilih Warna</p>
+      <div class="flex items-center gap-3 mb-4">
+        <input type="color" id="csColorPicker" value="#6366f1" class="w-14 h-12 rounded cursor-pointer border border-gray-200 dark:border-gray-700"/>
+        <input type="text" id="csHexInput" value="#6366f1" maxlength="7" class="flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+      </div>
+      <p class="text-xs text-gray-400 mb-2">Swatches berisiko tinggi</p>
+      <div class="flex gap-2 mb-5 flex-wrap">
+        <div class="cursor-crosshair w-8 h-8 rounded-md border border-black/10 hover:scale-110 transition-transform cs-swatch" style="background:#ff0000" data-color="#ff0000" title="Pure Red"></div>
+        <div class="cursor-crosshair w-8 h-8 rounded-md border border-black/10 hover:scale-110 transition-transform cs-swatch" style="background:#00ff00" data-color="#00ff00" title="Pure Green"></div>
+        <div class="cursor-crosshair w-8 h-8 rounded-md border border-black/10 hover:scale-110 transition-transform cs-swatch" style="background:#0000ff" data-color="#0000ff" title="Pure Blue"></div>
+        <div class="cursor-crosshair w-8 h-8 rounded-md border border-black/10 hover:scale-110 transition-transform cs-swatch" style="background:#ff00ff" data-color="#ff00ff" title="Magenta Neon"></div>
+        <div class="cursor-crosshair w-8 h-8 rounded-md border border-black/10 hover:scale-110 transition-transform cs-swatch" style="background:#00ffff" data-color="#00ffff" title="Cyan Neon"></div>
+        <div class="cursor-crosshair w-8 h-8 rounded-md border border-black/10 hover:scale-110 transition-transform cs-swatch" style="background:#ffff00" data-color="#ffff00" title="Pure Yellow"></div>
+        <div class="cursor-crosshair w-8 h-8 rounded-md border border-black/10 hover:scale-110 transition-transform cs-swatch" style="background:#ff6600" data-color="#ff6600" title="Orange"></div>
+        <div class="cursor-crosshair w-8 h-8 rounded-md border border-black/10 hover:scale-110 transition-transform cs-swatch" style="background:#6366f1" data-color="#6366f1" title="Indigo"></div>
+      </div>
+      <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3 hidden" id="csGamutWarn">
+        <p class="text-xs text-amber-700 dark:text-amber-300 font-semibold">⚠ Di luar gamut CMYK</p>
+        <p class="text-xs text-amber-600 dark:text-amber-400 mt-0.5">Warna neon tidak dapat direproduksi akurat pada cetak offset.</p>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.simShift">Simulasi Pergeseran</p>
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <div><p class="text-xs text-gray-400 mb-2 text-center" data-i18n="label.screenRgb">Layar (RGB)</p><div id="csRgbBox" class="w-full h-24 rounded-xl border border-gray-200" style="background:#6366f1"></div><p id="csRgbVal" class="text-xs font-mono text-center mt-2 text-gray-400">RGB(99,102,241)</p></div>
+        <div><p class="text-xs text-gray-400 mb-2 text-center" data-i18n="label.simCmyk">Simulasi (CMYK)</p><div id="csCmykBox" class="w-full h-24 rounded-xl border border-gray-200" style="background:#6b6fea"></div><p id="csCmykVal" class="text-xs font-mono text-center mt-2 text-gray-400">C:59% M:58% Y:0% K:5%</p></div>
+      </div>
+      <div class="space-y-2">
+        <div class="flex justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"><span class="text-xs text-gray-500">Hex CMYK Sim:</span><span id="csSimHex" class="text-sm font-mono font-bold">#6b6fea</span></div>
+        <div class="flex justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"><span class="text-xs text-gray-500">Delta Warna:</span><span id="csDelta" class="text-sm font-mono font-bold">—</span></div>
+        <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"><span id="csRisk" class="text-sm font-semibold">—</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB: DPI CHECKER -->
+<section id="tab-dpi" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.dpi">Resolution &amp; DPI Checker</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.dpi.sub">Upload gambar untuk cek apakah resolusinya mencukupi standar cetak 300 DPI.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <div id="dpiDropzone" class="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-8 text-center cursor-pointer hover:border-indigo-400 hover:bg-indigo-50/30 transition-colors mb-4">
+        <div id="dpiDropPlaceholder"><p class="text-3xl mb-2">🖼️</p><p class="font-medium text-sm mb-1" data-i18n="label.clickDrop">Klik atau seret gambar ke sini</p><p class="text-xs text-gray-400" data-i18n="label.supported">JPG, PNG, WebP</p></div>
+        <div id="dpiPreviewWrapper" class="hidden"><img id="dpiPreviewImg" src="" alt="preview" class="max-h-36 mx-auto rounded-lg object-contain"/><p id="dpiFileName" class="text-xs text-gray-400 mt-2 font-mono truncate"></p><p class="text-xs text-gray-400">Dimensi: <span id="dpiImgInfo" class="font-semibold">—</span> · <span id="dpiFileSize"></span></p></div>
+      </div>
+      <input type="file" id="dpiFileInput" accept="image/*" class="hidden"/>
+      <div class="border-t border-gray-100 dark:border-gray-800 pt-3">
+        <p class="text-xs font-semibold text-gray-400 uppercase mb-2" data-i18n="label.targetCustom">Target Custom</p>
+        <div class="flex items-center gap-2">
+          <input type="number" id="dpiCustomW" placeholder="Lebar (mm)" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+          <span class="text-gray-400">×</span>
+          <input type="number" id="dpiCustomH" placeholder="Tinggi (mm)" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+        </div>
+      </div>
+    </div>
+    <div id="dpiResults" class="hidden bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.dpiResults">Hasil DPI per Format</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead><tr class="text-xs text-gray-400 uppercase border-b border-gray-100 dark:border-gray-800"><th class="pb-2 pr-3" data-i18n="dpi.format">Format</th><th class="pb-2 pr-3" data-i18n="dpi.size">Ukuran</th><th class="pb-2 pr-3" data-i18n="dpi.dpi">DPI</th><th class="pb-2" data-i18n="dpi.status">Status</th></tr></thead>
+          <tbody id="dpiTableBody"></tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg" data-i18n-html="dpi.note">💡 Standar cetak profesional: <strong>300 DPI</strong>. Banner besar: 72–150 DPI ok.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     ASISTENSI & REVIEW
+═══════════════════════════════════════════════════════ -->
+
+<!-- TAB: BRIEF GENERATOR -->
+<section id="tab-brief" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.brief">Design Brief Generator &amp; Randomizer</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.brief.sub">Generate brief proyek fiktif acak untuk latihan studio atau bahan portofolio.</p>
+  </div>
+  <div class="max-w-xl mb-6">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col sm:flex-row gap-4 items-end">
+      <div class="flex-1"><label class="block text-xs font-medium text-gray-500 mb-1.5" data-i18n="label.difficulty">Tingkat Kesulitan</label>
+        <select id="briefDifficulty" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="easy">⭐ Easy — 1–2 deliverable</option>
+          <option value="medium" selected>⭐⭐ Medium — 3 deliverable</option>
+          <option value="hard">⭐⭐⭐ Hard — multi-platform</option>
+        </select>
+      </div>
+      <button id="generateBriefBtn" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors whitespace-nowrap" data-i18n="label.generate">🎲 Generate</button>
+    </div>
+  </div>
+  <div id="briefOutput" class="hidden max-w-2xl"></div>
+</section>
+
+<!-- TAB: RUBRIK DOSEN -->
+<section id="tab-rubrik" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.rubrik">Rubrik Self-Asistensi Dosen</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.rubrik.sub">Checklist evaluasi menyeluruh sebelum mengumpulkan karya ke dosen.</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-5">
+    <div class="md:col-span-2 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <div id="rubricContainer"></div>
+      <button onclick="resetCritique()" class="mt-4 px-4 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium" data-i18n="label.reset">↺ Reset Semua</button>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col gap-4">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400" data-i18n="label.readyScore">Skor Kesiapan</p>
+      <div class="text-center py-2"><p class="text-4xl font-display font-bold text-indigo-600 dark:text-indigo-400" id="critScore">0 / 18</p><p class="text-sm text-gray-400 mt-1">item lolos</p></div>
+      <div><div class="flex justify-between mb-1"><span class="text-xs text-gray-500">Progress</span><span class="text-xs font-semibold" id="critPercent">0%</span></div><div class="h-2.5 rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden"><div id="critBar" class="h-full rounded-full bg-indigo-600 transition-all duration-500" style="width:0%"></div></div></div>
+      <p id="critStatus" class="text-xs text-red-500">Masih banyak yang perlu diperiksa.</p>
+      <div class="border-t border-gray-100 dark:border-gray-800 pt-3 text-xs text-gray-400 space-y-1.5">
+        <p><span class="font-semibold text-red-500">0–49%:</span> Butuh perbaikan</p>
+        <p><span class="font-semibold text-amber-500">50–79%:</span> Ada catatan</p>
+        <p><span class="font-semibold text-blue-500">80–99%:</span> Hampir siap</p>
+        <p><span class="font-semibold text-green-600">100%:</span> Siap presentasi!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB: SQUINT TEST -->
+<section id="tab-squint" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.squint">Squint Test / Blur Filter Mode</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.squint.sub">Blur desainmu untuk mengecek apakah focal point dan hierarki tetap terbaca.</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <div id="squintDropzone" class="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-6 text-center cursor-pointer hover:border-indigo-400 transition-colors mb-4">
+        <p class="text-3xl mb-2">📷</p><p class="text-sm font-medium mb-1" data-i18n="label.squintDrop">Klik atau seret gambar</p><p class="text-xs text-gray-400" data-i18n="label.squintPaste">Atau paste (Ctrl+V)</p>
+      </div>
+      <input type="file" id="squintFileInput" accept="image/*" class="hidden"/>
+      <div id="squintControls" class="hidden space-y-4">
+        <div><label class="block text-xs font-medium text-gray-500 mb-1"><span data-i18n="label.squintIntensity">Intensitas Blur</span>: <span id="squintBlurVal">6px</span></label><input type="range" id="squintBlurSlider" min="2" max="20" value="6" class="w-full"/></div>
+        <button id="squintToggleBtn" class="w-full py-2.5 rounded-lg text-sm font-semibold transition-colors bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300" data-i18n="label.squintActivate">🫣 Aktifkan Squint Test</button>
+      </div>
+      <div class="mt-4 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-900 rounded-lg p-3">
+        <p class="text-xs font-semibold text-indigo-700 dark:text-indigo-300 mb-1">💡 Tips</p>
+        <ul class="text-xs text-indigo-600 dark:text-indigo-400 space-y-1 list-disc list-inside"><li>Aktifkan blur → elemen mana paling menonjol?</li><li>Hierarki baik = masih terasa meski blur</li></ul>
+      </div>
+    </div>
+    <div class="md:col-span-2 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.preview2">Pratinjau</p>
+      <div class="mockup-stage min-h-[300px] rounded-xl flex items-center justify-center overflow-hidden">
+        <p id="squintPlaceholder" class="text-sm text-gray-400">Upload gambar untuk melihat squint test</p>
+        <img id="squintPreview" src="" alt="squint preview" class="hidden max-w-full max-h-[480px] object-contain rounded-lg" style="transition:filter .4s ease;"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TIPOGRAFI & ASET
+═══════════════════════════════════════════════════════ -->
+
+<!-- TAB: TYPE SCALE -->
+<section id="tab-typescale" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.typescale">Typography Scale &amp; Hierarchy Calculator</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.typescale.sub">Generator skala tipografi matematis — Golden Ratio, Perfect Fourth, dan lainnya.</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.settings">Pengaturan</p>
+      <div class="space-y-4">
+        <div><label class="block text-xs font-medium text-gray-500 mb-1"><span data-i18n="label.baseSize">Base Size</span>: <span id="tsBaseSizeVal">16px</span></label><input type="range" id="tsBaseSize" min="12" max="24" value="16" class="w-full"/></div>
+        <div><label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="label.ratio2">Ratio</label><select id="tsRatio" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></select></div>
+        <div><label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="label.unitOut">Unit Output</label>
+          <select id="tsUnit" class="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"><option value="px">px</option><option value="rem">rem</option><option value="pt">pt</option></select>
+        </div>
+      </div>
+      <div class="mt-5 p-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-900 rounded-lg">
+        <p class="text-xs font-semibold text-indigo-700 dark:text-indigo-300 mb-1">💡 Rekomendasi</p>
+        <p class="text-xs text-indigo-600 dark:text-indigo-400"><strong>Perfect Fourth</strong> untuk web. <strong>Major Third</strong> untuk UI dashboard.</p>
+      </div>
+    </div>
+    <div class="md:col-span-2 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 overflow-x-auto">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.typeScale">Skala Tipografi</p>
+      <table class="w-full"><thead><tr class="text-xs text-gray-400 uppercase border-b border-gray-100 dark:border-gray-800"><th class="pb-2 pr-3 text-left" data-i18n="ts.step">Step</th><th class="pb-2 pr-3 text-left" data-i18n="ts.label">Label</th><th class="pb-2 pr-3 text-left" data-i18n="ts.size">Ukuran</th><th class="pb-2 pr-3 text-left" data-i18n="ts.lh">Line H.</th><th class="pb-2 text-left" data-i18n="ts.preview">Preview</th></tr></thead>
+      <tbody id="tsTableBody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- TAB: FONT DIRECTORY -->
+<section id="tab-fontdir" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.fontdir">Free Commercial Font &amp; Asset Directory</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.fontdir.sub">Kurasi font &amp; aset dengan label lisensi jelas — aman untuk pameran &amp; tugas akhir.</p>
+  </div>
+  <div class="flex flex-col sm:flex-row gap-3 mb-4">
+    <input type="text" id="fdSearch" data-i18n="label.searchFont" placeholder="Cari font..." class="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+    <select id="fdLicFilter" class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <option value="all" data-i18n="label.allLicence">Semua Lisensi</option><option value="open" data-i18n="label.freeCommercial">✓ Bebas Komersial</option><option value="attr" data-i18n="label.attribution">⚠ Atribusi</option><option value="nc" data-i18n="label.nonCommercial">✗ Non-Komersial</option>
+    </select>
+  </div>
+  <div class="flex gap-2 mb-5 flex-wrap">
+    <span class="text-xs px-2.5 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 font-medium">✓ Bebas Komersial — aman TA &amp; pameran</span>
+    <span class="text-xs px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 font-medium">⚠ Atribusi — cantumkan kredit</span>
+    <span class="text-xs px-2.5 py-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 font-medium">✗ Non-Komersial — beli lisensi dulu</span>
+  </div>
+  <p class="text-sm font-semibold mb-3" data-i18n="label.fontTypo">Font Tipografi</p>
+  <div id="fdGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"></div>
+  <p class="text-sm font-semibold mb-3" data-i18n="label.assetDir">Aset Ilustrasi, Ikon &amp; Foto</p>
+  <div id="fdAssetGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PORTOFOLIO
+═══════════════════════════════════════════════════════ -->
+
+<!-- TAB: CASE STUDY -->
+<section id="tab-casestudy" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.casestudy">Case Study Builder / Markdown Exporter</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.casestudy.sub">Susun narasi proyek desainmu secara terstruktur, lalu export ke format Markdown.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.form">Form Case Study</p>
+      <div id="caseStudyForm"></div>
+      <div class="flex gap-2 mt-4">
+        <button id="csPreviewBtn" class="flex-1 py-2 text-sm bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium" data-i18n="label.mdPreviewBtn">👁 Preview</button>
+        <button id="csCopyBtn" class="flex-1 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors font-medium" data-i18n="label.mdCopy">📋 Salin</button>
+        <button id="csDownloadBtn" class="flex-1 py-2 text-sm bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium" data-i18n="label.mdDown">⬇ .md</button>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.mdPreview">Markdown Preview</p>
+      <div id="csMdPreview" class="hidden"><pre id="csMdOutput" class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 text-xs font-mono overflow-auto max-h-[560px] whitespace-pre-wrap text-gray-700 dark:text-gray-300"></pre></div>
+      <div id="csMdEmpty" class="flex items-center justify-center min-h-[200px] text-gray-400 text-sm" data-i18n="label.mdEmpty">Klik "Preview" untuk melihat output.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB: MOCKUP -->
+<section id="tab-mockup" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.mockup">Interactive Mockup Generator</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.mockup.sub">Visualisasi instan desainmu di berbagai objek tanpa perlu buka file PSD.</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-5">
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <div id="mockupDropzone" class="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-6 text-center cursor-pointer hover:border-indigo-400 transition-colors mb-4">
+        <p class="text-3xl mb-2">🎨</p><p class="text-sm font-medium mb-1" data-i18n="label.mockupDrop">Klik atau seret gambar desain</p><p class="text-xs text-gray-400">PNG, JPG, SVG</p>
+      </div>
+      <input type="file" id="mockupFileInput" accept="image/*" class="hidden"/>
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3" data-i18n="label.mockupType">Tipe Mockup</p>
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <button class="mockup-type-btn active format-btn text-sm py-2 px-3 rounded-lg border border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300 font-medium" data-type="poster">🖼️ Poster</button>
+        <button class="mockup-type-btn format-btn text-sm py-2 px-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 font-medium" data-type="smartphone">📱 Smartphone</button>
+        <button class="mockup-type-btn format-btn text-sm py-2 px-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 font-medium" data-type="totebag">👜 Tote Bag</button>
+        <button class="mockup-type-btn format-btn text-sm py-2 px-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 font-medium" data-type="box">📦 Box</button>
+      </div>
+      <div><label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="label.bgColor2">Warna Background</label><input type="color" id="mockupBgColor" value="#f0f0f0" class="w-full h-9 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer"/></div>
+    </div>
+    <div class="md:col-span-2 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4" data-i18n="label.preview2">Preview</p>
+      <div id="mockupStage" class="mockup-stage min-h-[340px] rounded-xl flex items-center justify-center p-8"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB: REFERENSI DESAIN -->
+<section id="tab-references" class="tab-content">
+  <div class="mb-5">
+    <h2 class="font-display text-xl font-bold mb-0.5" data-i18n="h.references">Referensi Desain Eksternal</h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm" data-i18n="h.references.sub">Kurasi website terpilih untuk inspirasi, tipografi, warna, aset, dan belajar desain.</p>
+  </div>
+  <div class="flex flex-col sm:flex-row gap-3 mb-5">
+    <input type="text" id="refSearch" data-i18n="label.searchRef" placeholder="Cari nama situs atau topik..." class="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+    <div id="refFilterBtns" class="flex gap-2 flex-wrap"></div>
+  </div>
+  <div id="refGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+</section>
+
+</main><!-- end content-area -->
+</div><!-- end app-shell -->
+
+<!-- ── THEME CUSTOMIZER PANEL ───────────────────────────── -->
+<div id="themePanelOverlay"
+  class="hidden fixed inset-0 top-[57px] bg-black/25 z-[44]"></div>
+<div id="themePanel"
+  class="fixed top-[57px] right-0 w-[280px] h-[calc(100vh-57px)]
+         bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800
+         z-[45] overflow-y-auto px-4 py-5 pb-8
+         shadow-[-4px_0_24px_rgba(0,0,0,0.10)] dark:shadow-[-4px_0_24px_rgba(0,0,0,0.40)]
+         translate-x-full transition-transform duration-200 ease-[cubic-bezier(.4,0,.2,1)]">
+  <div id="themePanelContent"></div>
+</div>
+
+<!-- Toast -->
+<div id="copyToast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm px-5 py-2.5 rounded-full shadow-xl z-50 pointer-events-none"></div>
+
+<!-- ── ASISTEN DKV ─────────────────────────────────────────── -->
+<button class="asisten-btn fixed bottom-6 right-6 z-50 w-[52px] h-[52px] rounded-full bg-indigo-600 hover:bg-indigo-700 hover:scale-105 text-white border-0 cursor-pointer flex items-center justify-center shadow-[0_4px_20px_rgba(99,102,241,0.5)] transition-all duration-150"
+  id="asistenBtn" aria-label="Buka Asisten DKV">
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+  </svg>
+</button>
+
+<div class="asisten-panel hidden-panel fixed bottom-[88px] right-6 w-[340px] max-h-[520px] z-50
+            bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+            rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.15)]
+            flex flex-col overflow-hidden origin-bottom-right
+            transition-[opacity,transform] duration-200 ease-in-out"
+  id="asistenPanel">
+  <div class="flex items-center gap-2.5 px-4 py-3.5 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
+    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center flex-shrink-0 text-base">🎓</div>
+    <div>
+      <p class="font-semibold text-sm" data-i18n="asisten.title">Asisten DKV</p>
+      <p class="text-xs text-gray-400" data-i18n="asisten.sub">Tanya apa saja seputar desain</p>
+    </div>
+    <button onclick="document.getElementById('asistenPanel').classList.add('hidden-panel')" class="ml-auto w-7 h-7 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center transition-colors text-gray-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="flex-1 overflow-y-auto px-3.5 pt-3.5 flex flex-col gap-2.5" id="asistenMessages"></div>
+  <div class="px-3.5 py-2.5 flex gap-1.5 flex-wrap border-t border-gray-100 dark:border-gray-700 flex-shrink-0" id="asistenChips"></div>
+  <div class="px-3.5 pb-3.5 pt-2.5 flex gap-2 items-center flex-shrink-0">
+    <input type="text" id="asistenInput"
+      class="flex-1 text-[13px] px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-gray-800 transition-colors"
+      data-i18n="asisten.placeholder" placeholder="Tanya sesuatu..."/>
+    <button class="w-[34px] h-[34px] rounded-lg bg-indigo-600 hover:bg-indigo-700 border-0 cursor-pointer flex items-center justify-center flex-shrink-0 transition-colors" id="asistenSend">
+      <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+    </button>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
